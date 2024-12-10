@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h> // Include for malloc
+#include <stdbool.h>
 
 
 typedef struct Data
@@ -81,8 +82,7 @@ void deleteByName(DoubleLinkedList list, const char* name) {
 
     // If the node to delete is the first node
     if (deleteNode == list->H) {
-        printf("It's the first node \n");
-        list->H= deleteNode->nextR; // Update head
+        list->H = deleteNode->nextR; // Update head
         printf("The new first node : %s and %d  \n" , list->H->data.name , list->H->data.id);
         if (list->H) { // If there are other nodes
             list->H->nextL = NULL;
@@ -105,16 +105,9 @@ void deleteByName(DoubleLinkedList list, const char* name) {
 
     printf("The new first node : %s and %d  \n" , list->H->data.name , list->H->data.id);
     // Free dynamically allocated memory
-    free(deleteNode->data.name);
     free(deleteNode);
 }
 
-void swapByPoiter(DoubleLinkedList list , PDNode a , PDNode b)
-{
-    Data temp = a->data ;
-    a->data = b->data  ;
-    b->data = temp  ;
-}
 
 // Function to print the list from head to tail
 void printList(DoubleLinkedList list) {
@@ -126,39 +119,100 @@ void printList(DoubleLinkedList list) {
     printf("\n");
 }
 
-void testDeleteNode(DoubleLinkedList list )
+// Quicksort by id in descending order 
+void swapData(DoubleLinkedList list , PDNode a , PDNode b)
 {
-    PDNode newNode = (PDNode)malloc(sizeof(PDNode));
-    newNode->data.id = 10 ;
-    newNode->data.name = "are u okay ";
-    newNode->nextL = list->H ;
-    newNode->nextR = list->T ;
-
-    // newNode->nextL = NULL ;
-    // newNode->nextR = NULL ;
-    
-    free(newNode);
+    Data temp = a->data ;
+    a->data = b->data  ;
+    b->data = temp  ;
 }
 
+PDNode Partition(DoubleLinkedList list , PDNode frist , PDNode last )
+{
+    printList(list);
+    if ( frist == last) return NULL;
+
+    bool check_smaller = false ;    // check j < i : true 
+    bool check_equal  = false  ;    // check j = i true  ;
+
+    bool check_i = true  ;  // check over last 
+    bool check_j = true  ;  // check over first 
+
+    PDNode i = frist->nextR , j = last ;
+    int pivot = frist->data.id ;
+
+    while ( ! check_smaller  )
+    {
+
+        // Iterate i index 
+        while( (!check_smaller && i->data.id  <= pivot ) && check_i )
+        {
+            if ( i == last ) check_i = false ; else i = i->nextR ;
+        }
+
+        // Iterate j index 
+        while(( !check_smaller && j->data.id > pivot )  && check_j )
+        {
+            if ( i == j ) check_smaller = true ;
+            if ( i != j && check_equal ) check_smaller = true ;
+            if ( j == frist ) check_j = false ; else j = j->nextL ;
+        }
+
+        if( !check_smaller )
+        {
+            if (i == j )
+            {
+                if( ! check_i  )check_smaller = true ;
+            }
+            else swapData(list , i , j);
+        }
+    }
+    return j ;
+}
+
+void Quicksort( DoubleLinkedList list , PDNode first , PDNode last )
+{
+    if ( first != last )
+    {
+        PDNode j = Partition(list , first , last );     // find j index 
+        swapData(list , first , j);
+
+        if ( j != NULL ){
+            if ( j ->nextL != NULL )  
+            {
+                if ( j != first )Quicksort(list , first , j->nextL );
+            }
+            if ( j ->nextR != NULL) 
+            {
+                if ( j != last ) Quicksort(list , j->nextR , last );
+            }
+        }
+    }else return ;
+}
+
+/********************************************/
 int main() {
     DoubleLinkedList myList = createList(); // Create a new list
 
     // Add some nodes to the list
-    myList = addNode(myList, (Data){10 , "nguyen"});
-    myList = addNode(myList, (Data){20 , "tuanh"});
     myList = addNode(myList, (Data){30 , "anh"});
+    myList = addNode(myList, (Data){10 , "nguyen"});
+    myList = addNode(myList, (Data){60 , "oke "});
+    myList = addNode(myList, (Data){20 , "tuanh"});
+    myList = addNode(myList, (Data){40 , "very"});
+    myList = addNode(myList, (Data){50 , "handsome"});
 
 
     // Print the list
     printf("The contents of the list are: ");
     printList(myList);
 
-    // search a node in list  
-    printf("%d\n" , searchByName(myList , "nguyen") ->data.id);
-
-    // deleteByName(myList , "nguyen") ;
-    testDeleteNode( myList );
+    Quicksort(myList , myList->H , myList->T) ;
+      
+    printf("after quicksort function run part 1  :\n");
     printList(myList);
+
+    printf("END CODE! \n");
 
     return 0;
 }
