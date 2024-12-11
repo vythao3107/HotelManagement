@@ -34,7 +34,7 @@ typedef struct historyManager
 } historyManager ;
 
 
-// Function prototypes for List History 
+// Function prototypes for the List History 
 void showTestHistorys();
 ListHistory createListHistory();
 ListHistory addHistory(ListHistory list, DataHistory data);
@@ -44,5 +44,13 @@ void showListHistory(ListHistory list);
 void swapDataHistory(ListHistory list, PDHistory a, PDHistory b);
 PDHistory PartitionDate(ListHistory list, PDHistory first, PDHistory last);
 void QuicksortByDate(ListHistory list, PDHistory first, PDHistory last);
+
+// Function prototypes for the History Manager 
+
+historyManager createHistoryManager() ;
+ListHistory addListHistory(ListHistory list, DataHistory data);
+PDHistory searchByIDListHistory(ListHistory List, const char *name);
+void deleteByNameIDListHistory(ListHistory list, const char *name);
+void showHistoryManager(ListHistory list);
 
 #endif 
