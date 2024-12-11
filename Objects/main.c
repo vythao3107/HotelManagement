@@ -1,53 +1,48 @@
-#include <stdio.h>
+#include<stdio.h>
 
-#include "hotels.h"
+#include"users.h"
 
-// Test hotel functions
 int main()
 {
-    // Create the list of hotels
-    ListHotel list = createListHotel();
+    // Test initialization
+    showTestUser();
 
-    // Define some test data for hotels
-    DataHotel hotel1 = {90, 10, "Hotel Paradise", "New York", 123456789};
-    DataHotel hotel2 = {75, 5, "Hotel Elegance", "Los Angeles", 987654321};
-    DataHotel hotel3 = {85, 8, "Hotel Tranquility", "Chicago", 456789123};
+    // Create the list
+    ListUser userList = createListUser();
 
-    // Add hotels to the list
-    list = addHotel(list, hotel1);
-    list = addHotel(list, hotel2);
-    list = addHotel(list, hotel3);
+    // Add some users
+    DataUser user1 = {100001, "Nguyen Van A"};
+    DataUser user2 = {100002, "Tran Thi B"};
+    DataUser user3 = {100003, "Le Van C"};
 
-    // Display the list of hotels
-    printf("List of Hotels after adding:\n");
-    showListHotel(list);
+    userList = addUser(userList, user1);
+    userList = addUser(userList, user2);
+    userList = addUser(userList, user3);
 
-    // Search for a hotel by name
+    // Show the list of users
+    printf("Initial user list:\n");
+    showListUser(userList);
 
-    const char *searchName = "Hotel Elegance";
-    PDHotel foundHotel = searchByNameHotel(list, searchName);
-    if (foundHotel)
+    // Search for a user by ID
+    int searchId = 100002;
+    PDUser foundUser = searchByID(userList, searchId);
+    if (foundUser)
     {
-        printf("Hotel found: %s, Location: %s, Rating: %d, Rooms: %d, Hotline: %d\n",
-               foundHotel->data.name, foundHotel->data.location,
-               foundHotel->data.rating, foundHotel->data.available_room,
-               foundHotel->data.hotline);
+        printf("\nUser with ID %d found: %s\n", foundUser->data.id, foundUser->data.name);
     }
     else
     {
-        printf("Hotel with name '%s' not found.\n", searchName);
+        printf("\nUser with ID %d not found.\n", searchId);
     }
 
-    // Sort the list by rating using QuickSort
-    QuicksortHotel(list, list->H, list->T);
-    printf("List of Hotels after sorting by rating:\n");
-    showListHotel(list);
+    // Delete a user by ID
+    int deleteId = 100001;
+    printf("\nDeleting user with ID %d...\n", deleteId);
+    deleteByID(userList, deleteId);
 
-    // Delete a hotel by name
-    const char *deleteName = "Hotel Tranquility";
-    deleteByNameHotel(list, deleteName);
-    printf("List of Hotels after deleting '%s':\n", deleteName);
-    showListHotel(list);
+    // Show the list after deletion
+    printf("\nUser list after deletion:\n");
+    showListUser(userList);
 
     return 0;
 }

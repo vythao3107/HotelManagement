@@ -62,7 +62,7 @@ PDHotel searchByNameHotel(ListHotel list, const char* name)
 void deleteByNameHotel(ListHotel list, const char* name) {
     PDHotel deleteNode = searchByNameHotel(list, name); // Search for the hotel by name
     if (!deleteNode) {
-        printf("Node with name '%s' not found.\n", name); // If not found, print a message
+        printf("Hotel with name '%s' not found.\n", name); // If not found, print a message
         return;
     }
 
