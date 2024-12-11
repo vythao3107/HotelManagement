@@ -1,48 +1,50 @@
-#include<stdio.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "history.h"
 
-#include"users.h"
+// Assuming that the function prototypes and implementations are available.
 
 int main()
 {
-    // Test initialization
-    showTestUser();
+    // Create a list of history
+    ListHistory historyList = createListHistory();
 
-    // Create the list
-    ListUser userList = createListUser();
+    // Create test data
+    DataHistory data1 = {"Hotel A", "Location A", 241211};
+    DataHistory data2 = {"Hotel B", "Location B", 251211};
+    DataHistory data3 = {"Hotel C", "Location C", 261211};
 
-    // Add some users
-    DataUser user1 = {100001, "Nguyen Van A"};
-    DataUser user2 = {100002, "Tran Thi B"};
-    DataUser user3 = {100003, "Le Van C"};
+    // Add the data to the list
+    historyList = addHistory(historyList, data1);
+    historyList = addHistory(historyList, data2);
+    historyList = addHistory(historyList, data3);
 
-    userList = addUser(userList, user1);
-    userList = addUser(userList, user2);
-    userList = addUser(userList, user3);
+    // Show the list of histories
+    printf("Displaying History List:\n");
+    showListHistory(historyList);
 
-    // Show the list of users
-    printf("Initial user list:\n");
-    showListUser(userList);
-
-    // Search for a user by ID
-    int searchId = 100002;
-    PDUser foundUser = searchByID(userList, searchId);
-    if (foundUser)
+    // Search for a history by name
+    printf("\nSearching for Hotel B:\n");
+    PDHistory searchResult = searchByNameHistory(historyList, "Hotel B");
+    if (searchResult != NULL)
     {
-        printf("\nUser with ID %d found: %s\n", foundUser->data.id, foundUser->data.name);
+        printf("Found Hotel: %s, Location: %s, Date: %d\n", searchResult->data.name_hotel, searchResult->data.location, searchResult->data.date);
     }
     else
     {
-        printf("\nUser with ID %d not found.\n", searchId);
+        printf("Hotel not found.\n");
     }
 
-    // Delete a user by ID
-    int deleteId = 100001;
-    printf("\nDeleting user with ID %d...\n", deleteId);
-    deleteByID(userList, deleteId);
+    // Delete a history by name
+    printf("\nDeleting Hotel A:\n");
+    deleteByNameHistory(historyList, "Hotel A");
+    showListHistory(historyList);
 
-    // Show the list after deletion
-    printf("\nUser list after deletion:\n");
-    showListUser(userList);
+    // Quicksort the history list by date
+    printf("\nSorting history by date:\n");
+    QuicksortByDate(historyList, historyList->H, historyList->T);
+    showListHistory(historyList);
 
     return 0;
 }
