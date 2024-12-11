@@ -1,18 +1,18 @@
 #ifndef HOTEL_H
 #define HOTEL_H
 
-typedef struct Data  
+typedef struct DataHotel  
 {
     int rating  ;   // from 1 to 100 
     int available_room ;    // from 0 
     char* name  ;       
     char* location ;
     int hotline ;
-} Data;
+} DataHotel;
 
 typedef struct DHotel
 {
-    Data data ;
+    DataHotel data ;
     struct DHotel *nextL , *nextR ;
 } DHotel;
 
@@ -27,13 +27,13 @@ typedef struct ListHotel
 // Function prototypes 
 void showTestHotels();
 ListHotel createListHotel() ;
-ListHotel addHotel(ListHotel list , Data data );
-PDHotel searchByName(ListHotel List , const char* name );
-void deleteByName(ListHotel list, const char* name);
+ListHotel addHotel(ListHotel list , DataHotel data );
+PDHotel searchByNameHotel(ListHotel List , const char* name );
+void deleteByNameHotel(ListHotel list, const char* name);
 void showListHotel(ListHotel list);
-void swapData(ListHotel list, PDHotel a, PDHotel b) ;
-PDHotel Partition(ListHotel list, PDHotel first, PDHotel last) ;
-void Quicksort(ListHotel list, PDHotel first, PDHotel last) ;
+void swapDataHotel(ListHotel list, PDHotel a, PDHotel b) ;
+PDHotel PartitionHotel(ListHotel list, PDHotel first, PDHotel last) ;
+void QuicksortHotel(ListHotel list, PDHotel first, PDHotel last) ;
 
 
 #endif // HOTEL_H

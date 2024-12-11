@@ -20,7 +20,7 @@ ListHotel createListHotel() {
     return list; // Return the initialized list
 }
 
-ListHotel addHotel(ListHotel list, Data data) 
+ListHotel addHotel(ListHotel list, DataHotel data) 
 {
     PDHotel newHotel = (PDHotel)malloc(sizeof(DHotel)); // Allocate memory for a new hotel
     if (newHotel == NULL) 
@@ -44,7 +44,7 @@ ListHotel addHotel(ListHotel list, Data data)
     return list; // Return the modified list
 }
 
-PDHotel searchByName(ListHotel list, const char* name) 
+PDHotel searchByNameHotel(ListHotel list, const char* name) 
 {
     PDHotel iterator = list->H;     // Initialize an iterator to the head of the list
     while (iterator != NULL)    // Traverse the list until the end
@@ -59,8 +59,8 @@ PDHotel searchByName(ListHotel list, const char* name)
 }
 
 // Function to delete a hotel by name 
-void deleteByName(ListHotel list, const char* name) {
-    PDHotel deleteNode = searchByName(list, name); // Search for the hotel by name
+void deleteByNameHotel(ListHotel list, const char* name) {
+    PDHotel deleteNode = searchByNameHotel(list, name); // Search for the hotel by name
     if (!deleteNode) {
         printf("Node with name '%s' not found.\n", name); // If not found, print a message
         return;
@@ -106,14 +106,14 @@ void showListHotel(ListHotel list)
 }
 
 // Function to swap data between two hotels
-void swapData(ListHotel list, PDHotel a, PDHotel b) {
-    Data temp = a->data; // Store data of hotel a in temp
+void swapDataHotel(ListHotel list, PDHotel a, PDHotel b) {
+    DataHotel temp = a->data ; // Store data of hotel a in temp
     a->data = b->data;   // Assign data of hotel b to hotel a
     b->data = temp;      // Assign temp (original data of hotel a) to hotel b
 }
 
 // Function to partition the list for quicksort
-PDHotel Partition(ListHotel list, PDHotel first, PDHotel last) {
+PDHotel PartitionHotel(ListHotel list, PDHotel first, PDHotel last) {
     if (first == last) return NULL; // If the list has only one element, return NULL
 
     bool check_smaller = false; // Check if j < i
@@ -145,7 +145,7 @@ PDHotel Partition(ListHotel list, PDHotel first, PDHotel last) {
             if (i == j) {
                 if (!check_i) check_smaller = true; // If i has reached the end, set check_smaller to true
             } else {
-                swapData(list, i, j); // Swap data between i and j
+                swapDataHotel(list, i, j); // Swap data between i and j
             }
         }
     }
@@ -153,17 +153,17 @@ PDHotel Partition(ListHotel list, PDHotel first, PDHotel last) {
 }
 
 // Function to perform quicksort on the list
-void Quicksort(ListHotel list, PDHotel first, PDHotel last) {
+void QuicksortHotel(ListHotel list, PDHotel first, PDHotel last) {
     if (first != last) {
-        PDHotel j = Partition(list, first, last); // Find the partition index
-        swapData(list, first, j); // Swap the pivot with the partition index
+        PDHotel j = PartitionHotel(list, first, last); // Find the partition index
+        swapDataHotel(list, first, j); // Swap the pivot with the partition index
 
         if (j != NULL) {
             if (j->nextL != NULL) {
-                if (j != first) Quicksort(list, first, j->nextL); // Sort the left partition
+                if (j != first) QuicksortHotel(list, first, j->nextL); // Sort the left partition
             }
             if (j->nextR != NULL) {
-                if (j != last) Quicksort(list, j->nextR, last); // Sort the right partition
+                if (j != last) QuicksortHotel(list, j->nextR, last); // Sort the right partition
             }
         }
     } else return; // If first equals last, return

@@ -2,7 +2,6 @@
 
 #include "hotels.h"
 
-
 // Test hotel functions
 int main()
 {
@@ -10,9 +9,9 @@ int main()
     ListHotel list = createListHotel();
 
     // Define some test data for hotels
-    Data hotel1 = {90, 10, "Hotel Paradise", "New York", 123456789};
-    Data hotel2 = {75, 5, "Hotel Elegance", "Los Angeles", 987654321};
-    Data hotel3 = {85, 8, "Hotel Tranquility", "Chicago", 456789123};
+    DataHotel hotel1 = {90, 10, "Hotel Paradise", "New York", 123456789};
+    DataHotel hotel2 = {75, 5, "Hotel Elegance", "Los Angeles", 987654321};
+    DataHotel hotel3 = {85, 8, "Hotel Tranquility", "Chicago", 456789123};
 
     // Add hotels to the list
     list = addHotel(list, hotel1);
@@ -26,7 +25,7 @@ int main()
     // Search for a hotel by name
 
     const char *searchName = "Hotel Elegance";
-    PDHotel foundHotel = searchByName(list, searchName);
+    PDHotel foundHotel = searchByNameHotel(list, searchName);
     if (foundHotel)
     {
         printf("Hotel found: %s, Location: %s, Rating: %d, Rooms: %d, Hotline: %d\n",
@@ -40,13 +39,13 @@ int main()
     }
 
     // Sort the list by rating using QuickSort
-    Quicksort(list, list->H, list->T);
+    QuicksortHotel(list, list->H, list->T);
     printf("List of Hotels after sorting by rating:\n");
     showListHotel(list);
 
     // Delete a hotel by name
     const char *deleteName = "Hotel Tranquility";
-    deleteByName(list, deleteName);
+    deleteByNameHotel(list, deleteName);
     printf("List of Hotels after deleting '%s':\n", deleteName);
     showListHotel(list);
 
