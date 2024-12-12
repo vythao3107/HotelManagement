@@ -3,10 +3,9 @@
 
 typedef struct DataHistory
 {
-    char *name_hotel ;
-    char *location ;
-    int date;           // year month date ex : 241211
-    int past_guests ;   // 
+    char *name_hotel;
+    char *location;
+    int date; // year month date ex : 241211
 } DataHistory;
 
 typedef struct DHistory
@@ -20,21 +19,20 @@ typedef DHistory *PDHistory;
 
 typedef struct ListHistory
 {
-    int id ;    // match user
-    int phone_number; // phone number of user started by 84 
+    int id;           // match user
+    int phone_number; // phone number of user started by 84
     PDHistory H;
     PDHistory T;
-    struct ListHistory *nextL , *nextR ;
+    struct ListHistory *nextL, *nextR;
 } *ListHistory;
 
 typedef struct historyManager
 {
-    ListHistory H ;
-    ListHistory T ;   
-} historyManager ;
+    ListHistory H;
+    ListHistory T;
+} *historyManager;
 
-
-// Function prototypes for the List History 
+// Function prototypes for List History
 void showTestHistorys();
 ListHistory createListHistory();
 ListHistory addHistory(ListHistory list, DataHistory data);
@@ -45,12 +43,12 @@ void swapDataHistory(ListHistory list, PDHistory a, PDHistory b);
 PDHistory PartitionDate(ListHistory list, PDHistory first, PDHistory last);
 void QuicksortByDate(ListHistory list, PDHistory first, PDHistory last);
 
-// Function prototypes for the History Manager 
+// Function ptototytpes for History Manager
 
-historyManager createHistoryManager() ;
-ListHistory addListHistory(ListHistory list, DataHistory data);
-PDHistory searchByIDListHistory(ListHistory List, const char *name);
-void deleteByNameIDListHistory(ListHistory list, const char *name);
-void showHistoryManager(ListHistory list);
+historyManager createHistoryManager();
+historyManager addListHistory(historyManager list, int id, int phone_number);
+ListHistory searchByIDHistory(historyManager list, int id);
+void deleteByIDHistory(historyManager list, int id);
+void showHistoryManager(historyManager list);
 
-#endif 
+#endif

@@ -208,3 +208,115 @@ void QuicksortByDate(ListHistory list, PDHistory first, PDHistory last)
     else
         return; // If first equals last, return
 }
+
+// list functions of History Manager
+historyManager createHistoryManager()
+{
+    historyManager list = (historyManager)malloc(sizeof(struct historyManager));
+    if (list == NULL)
+    {
+        // Handle memory allocation failure
+        return NULL;
+    }
+    list->H = NULL; // Initialize the head pointer to NULL
+    list->T = NULL; // Initialize the tail pointer to NULL
+    return list;    // Return the initialized list
+}
+
+historyManager addListHistory(historyManager list, int id, int phone_number)
+{
+    ListHistory newHistory = (ListHistory)malloc(sizeof(struct ListHistory)); // Allocate memory for a new History
+    if (newHistory == NULL)
+    {
+        printf("Memory allocation failed\n");
+        return list; // Return the unchanged list
+    }
+
+    // Set the data for the new History
+    newHistory->id = id;
+    newHistory->phone_number = phone_number;
+    newHistory->nextL = NULL; // Initialize left pointer to NULL
+    newHistory->nextR = NULL; // Initialize right pointer to NULL
+
+    if (list->H == NULL)
+    {                         // If the list is empty
+        list->H = newHistory; // Set the new History as the head
+        list->T = newHistory; // Set the new History as the tail
+    }
+    else
+    {
+        list->T->nextR = newHistory; // Link the new History to the end of the list
+        newHistory->nextL = list->T; // Link the new History back to the current tail
+        list->T = newHistory;        // Update the tail to the new History
+    }
+    return list; // Return the modified list
+}
+
+ListHistory searchByIDHistory(historyManager list, int id)
+{
+    ListHistory iterator = list->H; // Initialize an iterator to the head of the list
+    while (iterator != NULL)        // Traverse the list until the end
+    {
+        // Check if the id of the current History matches the given name
+        if (iterator->id == id)
+            return iterator; // Return the History if the id matches
+
+        iterator = iterator->nextR; // Move to the next History in the list
+    }
+    return NULL; // Return NULL if no History with the given name is found
+}
+
+void deleteByIDHistory(historyManager list, int id)
+{
+    ListHistory deleteNode = searchByIDHistory(list, id); // Search for the History by name
+    if (!deleteNode)
+    {
+        printf("History with identifier '%d' not found.\n", id); // If not found, print a message
+        return;
+    }
+
+    // If the History to delete is the first History
+    if (deleteNode == list->H)
+    {
+        list->H = deleteNode->nextR; // Update head to the next History
+        if (list->H)
+        {                          // If there are other Historys
+            list->H->nextL = NULL; // Update the previous pointer of the new head
+        }
+        else
+        {                   // If this was the only History
+            list->H = NULL; // Set head to NULL
+        }
+    }
+    // If the History to delete is the last History
+    else if (deleteNode == list->T)
+    {
+        list->T = deleteNode->nextL; // Update tail to the previous History
+        if (list->T)
+        {                          // If there are other Historys
+            list->T->nextR = NULL; // Update the next pointer of the new tail
+        }
+    }
+    // If the History is in the middle
+    else
+    {
+        deleteNode->nextL->nextR = deleteNode->nextR; // Bypass the node to delete
+        deleteNode->nextR->nextL = deleteNode->nextL; // Bypass the node to delete
+    }
+
+    // Free dynamically allocated memory for the deleted History
+    free(deleteNode);
+}
+
+void showHistoryManager(historyManager list)
+{
+    ListHistory current = list->H; // Start from the head
+
+    while (current != NULL)
+    {
+        printf("Identifier : %d \t phone number %d \n", current->id, current->phone_number);
+        // showListHistory(current);
+        current = current->nextR;
+    }
+    printf("\t =============== \t");
+}
