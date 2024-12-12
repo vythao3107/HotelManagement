@@ -3,48 +3,63 @@
 #include <string.h>
 #include "history.h"
 
-// Assuming that the function prototypes and implementations are available.
-
 int main()
 {
-    // Create a list of history
-    ListHistory historyList = createListHistory();
+    // Create History Manager
+    historyManager manager = createHistoryManager();
+    ListHistory user1 = createListHistory();
+    ListHistory user2 = createListHistory();
 
-    // Create test data
-    DataHistory data1 = {"Hotel A", "Location A", 241211};
-    DataHistory data2 = {"Hotel B", "Location B", 251211};
-    DataHistory data3 = {"Hotel C", "Location C", 261211};
+    // Add some list histories to the manager
+    manager = addListHistory(manager, 1, 8490);
+    manager = addListHistory(manager, 2, 8490);
 
-    // Add the data to the list
-    historyList = addHistory(historyList, data1);
-    historyList = addHistory(historyList, data2);
-    historyList = addHistory(historyList, data3);
+    // Add some histories to user1
+    DataHistory data1 = {"Grand Hotel", "Hanoi", 240101};
+    DataHistory data2 = {"Beach Resort", "Danang", 240215};
+    user1 = addHistory(user1, data1);
+    user1 = addHistory(user1, data2);
 
-    // Show the list of histories
-    printf("Displaying History List:\n");
-    showListHistory(historyList);
+    // Add some histories to user2
+    DataHistory data3 = {"Mountain Lodge", "Sapa", 240110};
+    DataHistory data4 = {"City Inn", "HCMC", 240305};
+    user2 = addHistory(user2, data3);
+    user2 = addHistory(user2, data4);
 
-    // Search for a history by name
-    printf("\nSearching for Hotel B:\n");
-    PDHistory searchResult = searchByNameHistory(historyList, "Hotel B");
-    if (searchResult != NULL)
+    // Show the full history manager
+    printf("\nInitial History Manager:\n");
+    showHistoryManager(manager);
+
+    // Search for a history in user1's list
+    PDHistory searchResult = searchByNameHistory(user1, "Grand Hotel");
+    if (searchResult)
     {
-        printf("Found Hotel: %s, Location: %s, Date: %d\n", searchResult->data.name_hotel, searchResult->data.location, searchResult->data.date);
+        printf("\nFound history: %s, %s, %d\n", searchResult->data.name_hotel, searchResult->data.location, searchResult->data.date);
     }
     else
     {
-        printf("Hotel not found.\n");
+        printf("\nHistory not found.\n");
     }
 
-    // Delete a history by name
-    printf("\nDeleting Hotel A:\n");
-    deleteByNameHistory(historyList, "Hotel A");
-    showListHistory(historyList);
+    // Delete a history from user2
+    deleteByNameHistory(user2, "City Inn");
+    printf("\nHistory Manager after deleting 'City Inn' from user2:\n");
+    showHistoryManager(manager);
 
-    // Quicksort the history list by date
-    printf("\nSorting history by date:\n");
-    QuicksortByDate(historyList, historyList->H, historyList->T);
-    showListHistory(historyList);
+    // Sort histories for user1 by date
+    if (user1->H && user1->T)
+    {
+        QuicksortByDate(user1, user1->H, user1->T);
+        printf("\nUser1's history after sorting by date:\n");
+        showListHistory(user1);
+    }
+
+    // Delete a user list from the history manager
+    deleteByIDHistory(manager, 1);
+    printf("\nHistory Manager after deleting user1:\n");
+    showHistoryManager(manager);
+
+    // Clean up memory (not shown here for brevity)
 
     return 0;
 }
