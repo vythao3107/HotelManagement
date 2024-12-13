@@ -102,8 +102,6 @@ void deleteByName(DoubleLinkedList list, const char* name) {
         deleteNode->nextL->nextR = deleteNode->nextR;
         deleteNode->nextR->nextL = deleteNode->nextL;
     }
-
-    printf("The new first node : %s and %d  \n" , list->H->data.name , list->H->data.id);
     // Free dynamically allocated memory
     free(deleteNode);
 }
