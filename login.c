@@ -70,7 +70,7 @@ ListUser addUser(ListUser list, DataUser data) {
 void showListUser(ListUser list) {
     PDUser current = list->H;
     while (current != NULL) {
-        printf("Email: %s, Ten: %s, Tuoi: %d, CCCD: %s, Đia chi: %s\n",
+        printf("Email: %s, Ten: %s, Tuoi: %d, CCCD: %s, Dia chi: %s\n",
                current->data.email, current->data.name, current->data.age,
                current->data.cccd, current->data.address);
         current = current->nextR;
