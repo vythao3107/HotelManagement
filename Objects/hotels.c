@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdlib.h>
+#include<string.h>
 #include<stdbool.h>
 
 #include"hotels.h"
@@ -50,7 +51,7 @@ PDHotel searchByNameHotel(ListHotel list, const char* name)
     while (iterator != NULL)    // Traverse the list until the end
     {
         // Check if the name of the current hotel matches the given name
-        if (iterator->data.name == name) 
+        if(strcmp(iterator->data.name , name) == 0)
             return iterator;    // Return the hotel if the name matches
         
         iterator = iterator->nextR;     // Move to the next hotel in the list
