@@ -169,3 +169,20 @@ void QuicksortHotel(ListHotel list, PDHotel first, PDHotel last) {
         }
     } else return; // If first equals last, return
 }
+
+void freeMemoryHotel(ListHotel list)
+{
+    PDHotel current = list->H; // Start from the head
+    PDHotel temp;
+
+    // Free each hotel node
+    while (current != NULL)
+    {
+        temp = current;
+        current = current->nextR; // Move to the next hotel
+        free(temp);               // Free the hotel node
+    }
+
+    // Free the list structure itself
+    free(list);
+}

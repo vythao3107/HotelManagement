@@ -19,6 +19,8 @@ ListHistory createListHistory()
     }
     list->H = NULL; // Initialize the head pointer to NULL
     list->T = NULL; // Initialize the tail pointer to NULL
+    list->id = 0 ;
+    list->phone_number = 0 ;
     return list;    // Return the initialized list
 }
 
@@ -209,7 +211,7 @@ void QuicksortByDate(ListHistory list, PDHistory first, PDHistory last)
         return; // If first equals last, return
 }
 
-// list functions of History Manager
+// List functions of History Manager
 historyManager createHistoryManager()
 {
     historyManager list = (historyManager)malloc(sizeof(struct historyManager));
@@ -225,7 +227,7 @@ historyManager createHistoryManager()
 
 historyManager addListHistory(historyManager list, int id, int phone_number)
 {
-    ListHistory newHistory = (ListHistory)malloc(sizeof(struct ListHistory)); // Allocate memory for a new History
+    ListHistory newHistory = createListHistory() ;
     if (newHistory == NULL)
     {
         printf("Memory allocation failed\n");
@@ -235,8 +237,6 @@ historyManager addListHistory(historyManager list, int id, int phone_number)
     // Set the data for the new History
     newHistory->id = id;
     newHistory->phone_number = phone_number;
-    newHistory->nextL = NULL; // Initialize left pointer to NULL
-    newHistory->nextR = NULL; // Initialize right pointer to NULL
 
     if (list->H == NULL)
     {                         // If the list is empty
@@ -319,4 +319,31 @@ void showHistoryManager(historyManager list)
         current = current->nextR;
     }
     printf("\t =============== \t");
+}
+
+void freeMemoryHistory(ListHistory list) {
+    PDHistory current = list->H; // Start from the head
+    PDHistory temp;
+
+    // Free each history node
+    while (current != NULL) {
+        temp = current;
+        current = current->nextR; // Move to the next history
+        free(temp); // Free the history node
+    }
+
+    // Free the list structure itself
+    free(list);
+}
+
+void freeMemoryHistoryManager(historyManager manager)
+{
+    ListHistory current = manager->H;
+    while ( current != NULL )
+    {
+        ListHistory next = current->nextR ;
+        freeMemoryHistory(current);
+        current = next;
+    }
+    free(manager);
 }

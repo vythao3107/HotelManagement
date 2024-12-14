@@ -117,3 +117,20 @@ void showListUser(ListUser list)
     }
     printf("\t =============== \t");
 }
+
+void freeMemoryUser(ListUser list)
+{
+    PDUser current = list->H; // Start from the head
+    PDUser temp;
+
+    // Free each user node
+    while (current != NULL)
+    {
+        temp = current;
+        current = current->nextR; // Move to the next user
+        free(temp);               // Free the user node
+    }
+
+    // Free the list structure itself
+    free(list);
+}

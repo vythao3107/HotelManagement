@@ -50,5 +50,7 @@ historyManager addListHistory(historyManager list, int id, int phone_number);
 ListHistory searchByIDHistory(historyManager list, int id);
 void deleteByIDHistory(historyManager list, int id);
 void showHistoryManager(historyManager list);
+void freeMemoryHistory(ListHistory list) ;
+void freeMemoryHistoryManager(historyManager manager);
 
 #endif
