@@ -63,7 +63,7 @@ PDHotel searchByNameHotel(ListHotel list, const char* name)
 void deleteByNameHotel(ListHotel list, const char* name) {
     PDHotel deleteNode = searchByNameHotel(list, name); // Search for the hotel by name
     if (!deleteNode) {
-        printf("Hotel with name '%s' not found.\n", name); // If not found, print a message
+        printf("Hotel not found.\n"); // If not found, print a message
         return;
     }
 
@@ -93,14 +93,17 @@ void deleteByNameHotel(ListHotel list, const char* name) {
     free(deleteNode);
 }
 
-void showListHotel(ListHotel list)
-{
-    PDHotel current = list->H ;     // Start from the head 
+void showListHotel(ListHotel list) {
+    if (list == NULL || list->H == NULL) {
+        printf("The hotel list is empty.\n");
+        return;
+    }
     
-    while (current != NULL)
-    {
-        printf("Name : %s \t location %s \n" , current->data.name , current->data.location);
-        printf("Rating %d \t vailable rooms : %d \t hotline %d \n" , current->data.rating , current->data.available_room , current->data.hotline);
+    PDHotel current = list->H; // Start from the head 
+
+    while (current != NULL) {
+        printf("Name : %s \t location %s \n", current->data.name, current->data.location);
+        printf("Rating %d \t available rooms : %d \t hotline %d \n", current->data.rating, current->data.available_room, current->data.hotline);
         current = current->nextR;
     }
     printf("\t =============== \t");
@@ -205,7 +208,6 @@ void readHoteldata(ListHotel list )
     // Read the file line by line 
     while (fgets(line, sizeof(line) , file))
     {
-        //printf("[%s]%ld" , line , sizeof(line) );   // Print each line
         int rating, available_room, hotline;
         char *name = (char*)malloc(50 * sizeof(char));
         char *location = (char*)malloc(50 * sizeof(char));
@@ -219,10 +221,12 @@ void readHoteldata(ListHotel list )
         available_room = atoi(token); // Convert string to int
 
         token = strtok(NULL, "|");
-        strcpy(name, token); // Copy name
+        strncpy(name, token, 49); // Copy name safely
+        name[49] = '\0'; // Ensure null termination
 
         token = strtok(NULL, "|");
-        strcpy(location, token); // Copy location
+        strncpy(location, token, 49); // Copy location safely
+        location[49] = '\0'; // Ensure null termination
 
         token = strtok(NULL, "|");
         hotline = atoi(token); // Convert string to int
@@ -233,9 +237,6 @@ void readHoteldata(ListHotel list )
         // Create and add the new hotel
         DataHotel new_hotel = {rating, available_room, name, location, hotline};
         list = addHotel(list, new_hotel);
-        printf("\nname and hotline of head hotel : [%s]\t[%d]\n" , list->H->data.name , list->H->data.hotline);
-        printf("name and hotline of tail hotel : [%s]\t[%d]\n" , list->T->data.name, list->T->data.hotline);
-
         
         //showListHotel(list);
     }
