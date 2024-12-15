@@ -1,0 +1,3 @@
+10|7|hotel_1|thanhhoa|19002000
+20|17|hotel_2|bacdai|19002001
+30|27|hotel_3|quangchau|19002002
