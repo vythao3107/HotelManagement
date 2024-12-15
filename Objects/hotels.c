@@ -34,7 +34,7 @@ ListHotel addHotel(ListHotel list, DataHotel data)
     newHotel->nextL = NULL; // Initialize left pointer to NULL
     newHotel->nextR = NULL; // Initialize right pointer to NULL
 
-    if (list->H == NULL) { // If the list is empty
+    if (list->H == NULL) { // If the list is empty, set new hotel as head and tail
         list->H = newHotel; // Set the new hotel as the head
         list->T = newHotel; // Set the new hotel as the tail
     } else {
@@ -186,3 +186,65 @@ void freeMemoryHotel(ListHotel list)
     // Free the list structure itself
     free(list);
 }
+
+void readHoteldata(ListHotel list )
+{
+    printf("TEST READING FILE FORM HOTEL.C \n");
+    FILE *file ;
+    // rating|available_room|name|location|hotline;
+    file = fopen("../Interface/hotels.txt", "r");
+    char line[256];
+
+    // Handle 
+    if (file == NULL)
+    {
+        perror("Error opening file ");
+        //return 0 ;
+    }
+
+    // Read the file line by line 
+    while (fgets(line, sizeof(line) , file))
+    {
+        //printf("[%s]%ld" , line , sizeof(line) );   // Print each line
+        int rating, available_room, hotline;
+        char *name = (char*)malloc(50 * sizeof(char));
+        char *location = (char*)malloc(50 * sizeof(char));
+
+        // Tokenize the line
+        char *token;
+        token = strtok(line, "|");
+        rating = atoi(token); // Convert string to int
+
+        token = strtok(NULL, "|");
+        available_room = atoi(token); // Convert string to int
+
+        token = strtok(NULL, "|");
+        strcpy(name, token); // Copy name
+
+        token = strtok(NULL, "|");
+        strcpy(location, token); // Copy location
+
+        token = strtok(NULL, "|");
+        hotline = atoi(token); // Convert string to int
+                // Remove newline characters if any at the end of name and location
+        name[strcspn(name, "\n")] = '\0'; // Remove newline from name
+        location[strcspn(location, "\n")] = '\0'; // Remove newline from location
+
+        // Create and add the new hotel
+        DataHotel new_hotel = {rating, available_room, name, location, hotline};
+        list = addHotel(list, new_hotel);
+        printf("\nname and hotline of head hotel : [%s]\t[%d]\n" , list->H->data.name , list->H->data.hotline);
+        printf("name and hotline of tail hotel : [%s]\t[%d]\n" , list->T->data.name, list->T->data.hotline);
+
+        
+        //showListHotel(list);
+    }
+    printf("\n");
+    
+}
+
+
+
+
+
+
