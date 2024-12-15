@@ -102,8 +102,8 @@ void showListHotel(ListHotel list) {
     PDHotel current = list->H; // Start from the head 
 
     while (current != NULL) {
-        printf("Name : %s \t location %s \n", current->data.name, current->data.location);
-        printf("Rating %d \t available rooms : %d \t hotline %d \n", current->data.rating, current->data.available_room, current->data.hotline);
+        printf("\nName : [%s]\tLocation :[%s]\n", current->data.name, current->data.location);
+        printf("Rating : [%d] \t available rooms : [%d] \t\t hotline [%d] \n", current->data.rating, current->data.available_room, current->data.hotline);
         current = current->nextR;
     }
     printf("\t =============== \t");
@@ -190,7 +190,7 @@ void freeMemoryHotel(ListHotel list)
     free(list);
 }
 
-void readHoteldata(ListHotel list )
+void readHotelData(ListHotel list )
 {
     printf("TEST READING FILE FORM HOTEL.C \n");
     FILE *file ;
@@ -242,6 +242,20 @@ void readHoteldata(ListHotel list )
     }
     printf("\n");
     
+}
+
+void writeHotelData(ListHotel list , DataHotel data)
+{
+    FILE *file ;
+    file = fopen("../Interface/hotels.txt" ,"a");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+    }
+    
+    fprintf(file ,"%d|%d|%s|%s|%d\n" , data.rating ,data.available_room , data.name , data.location , data.hotline);
+    fclose(file);
+
 }
 
 
