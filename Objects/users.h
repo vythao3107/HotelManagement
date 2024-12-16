@@ -27,6 +27,7 @@ ListUser addUser (ListUser list, DataUser  data);
 PDUser  searchByID(ListUser List, int id );
 void deleteByID(ListUser list, int id );
 void showListUser(ListUser list);
-void freeListUser(ListUser list);
-
+void freeMemoryUser(ListUser list);
+void readUserData(ListUser list);
+void writeUserData(ListUser list , DataUser data);
 #endif

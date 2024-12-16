@@ -1,6 +1,7 @@
 #include<stdio.h>
 #include<stdlib.h>
 #include<stdbool.h>
+#include<string.h>
 
 #include"users.h"
 
@@ -112,7 +113,7 @@ void showListUser(ListUser list)
 
     while (current != NULL)
     {
-        printf("Name : %s \t Identifier %d \n", current->data.name, current->data.id);
+        printf("Name : [%s] \t Identifier: [%d] \n", current->data.name, current->data.id);
         current = current->nextR;
     }
     printf("\t =============== \t");
@@ -133,4 +134,57 @@ void freeMemoryUser(ListUser list)
 
     // Free the list structure itself
     free(list);
+}
+
+void readUserData(ListUser list)
+{
+    printf("TEST READING FILE FORM USERs.C \n");
+    FILE *file;
+    // id|name
+    file = fopen("../Interface/users.txt", "r");
+    char line[256];
+
+    // Handle
+    if (file == NULL)
+    {
+        perror("Error opening file ");
+        // return 0 ;
+    }
+
+    // Read the file line by line
+    while (fgets(line, sizeof(line), file))
+    if(strlen(line) != 0){
+        int id ;
+        char *name = (char *)malloc(50 * sizeof(char));
+
+        // Tokenize the line
+        char *token;
+        token = strtok(line, "|");
+        id = atoi(token); // Convert string to int
+
+        token = strtok(NULL, "|");
+        strncpy(name, token, 49); // Copy name safely
+        name[49] = '\0';          // Ensure null termination
+
+        name[strcspn(name, "\n")] = '\0';         // Remove newline from name
+
+        // Create and add the new user
+        DataUser new_user = {id , name};
+        list = addUser(list, new_user);
+        showListUser(list);
+    }
+    printf("\n");
+}
+
+void writeUserData(ListUser list, DataUser data)
+{
+    FILE *file;
+    file = fopen("../Interface/users.txt", "a");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+    }
+
+    fprintf(file, "\n%d|%s", data.id, data.name);
+    fclose(file);
 }
