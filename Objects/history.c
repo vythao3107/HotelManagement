@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
+#include <string.h>
 
 #include "history.h"
 
@@ -12,10 +13,9 @@ void showTestHistory()
 ListHistory createListHistory()
 {
     ListHistory list = (ListHistory)malloc(sizeof(struct ListHistory));
-    if (list == NULL)
-    {
-        // Handle memory allocation failure
-        return NULL;
+    if (list == NULL) {
+        printf("List is NULL in createListHistory\n");
+        return NULL; // Handle memory allocation failure
     }
     list->H = NULL; // Initialize the head pointer to NULL
     list->T = NULL; // Initialize the tail pointer to NULL
@@ -114,11 +114,11 @@ void showListHistory(ListHistory list)
 
     while (current != NULL)
     {
-        printf("Name : %s \t location %s \n", current->data.name_hotel, current->data.location);
-        printf("Date %d \n", current->data.date);
+        printf("Name : [%s] \t location : [%s] \n", current->data.name_hotel, current->data.location);
+        printf("Date : [%d] \n", current->data.date);
         current = current->nextR;
     }
-    printf("\t =============== \t");
+    printf("\t =============== \t\n");
 }
 
 // Function to swap data between two Historys
@@ -225,29 +225,19 @@ historyManager createHistoryManager()
     return list;    // Return the initialized list
 }
 
-historyManager addListHistory(historyManager list, int id, int phone_number)
+historyManager addListHistory(historyManager list, ListHistory history)
 {
-    ListHistory newHistory = createListHistory() ;
-    if (newHistory == NULL)
-    {
-        printf("Memory allocation failed\n");
-        return list; // Return the unchanged list
-    }
-
-    // Set the data for the new History
-    newHistory->id = id;
-    newHistory->phone_number = phone_number;
 
     if (list->H == NULL)
     {                         // If the list is empty
-        list->H = newHistory; // Set the new History as the head
-        list->T = newHistory; // Set the new History as the tail
+        list->H = history; // Set the new History as the head
+        list->T = history; // Set the new History as the tail
     }
     else
     {
-        list->T->nextR = newHistory; // Link the new History to the end of the list
-        newHistory->nextL = list->T; // Link the new History back to the current tail
-        list->T = newHistory;        // Update the tail to the new History
+        list->T->nextR = history; // Link the new History to the end of the list
+        history->nextL = list->T; // Link the new History back to the current tail
+        list->T = history;        // Update the tail to the new History
     }
     return list; // Return the modified list
 }
@@ -314,11 +304,10 @@ void showHistoryManager(historyManager list)
 
     while (current != NULL)
     {
-        printf("Identifier : %d \t phone number %d \n", current->id, current->phone_number);
-        // showListHistory(current);
+        printf("Identifier : [%d] \t Phone number [%d] \n", current->id, current->phone_number);
+        showListHistory(current);
         current = current->nextR;
     }
-    printf("\t =============== \t");
 }
 
 void freeMemoryHistory(ListHistory list) {
@@ -346,4 +335,92 @@ void freeMemoryHistoryManager(historyManager manager)
         current = next;
     }
     free(manager);
+}
+
+void readHistoryData(historyManager list)
+{
+    printf("TEST READING FILE FORM HISTORY.C \n");
+    FILE *file;
+    // id|name
+    file = fopen("../Interface/history.txt", "r");
+    char line[256];
+
+    // Handle
+    if (file == NULL)
+    {
+        perror("Error opening file ");
+        // return 0 ;
+    }
+    
+    int cnt = 0;
+    // Read the file line by line
+    while (fgets(line, sizeof(line), file) && (int)line[0] != 10)
+    {
+        int id , phone_number;
+
+        // Tokenize the line
+        char *token;
+        token = strtok(line, "|");
+        id = atoi(token); // Convert string to int
+        printf("Identifier : %d \n"  , id );
+
+        token = strtok(NULL, "|");
+        phone_number = atoi(token); // Convert string to int
+
+        ListHistory history = createListHistory();
+        ListHistory history_id = searchByIDHistory(list , id);
+        bool check ;
+        if ( searchByIDHistory(list , id) != NULL)
+        {
+            check = true ;
+        }
+        else 
+        {
+            check = false ;
+        }
+        history->id = id;
+        history->phone_number = phone_number ;
+        
+        char new_line[256];
+        while (fgets(new_line, sizeof(new_line), file) && (int)new_line[0] != 10)
+        {
+            char* name = (char*)malloc(50 * sizeof(char));
+            char *location = (char *)malloc(50 * sizeof(char));
+            int date ;
+
+            char* new_token ;
+            new_token  = strtok(new_line , "|");
+            strncpy(name, new_token, 49); // Copy name safely
+
+            name[strcspn(name, "\n")] = '\0';
+
+            new_token = strtok(NULL, "|");
+            strncpy(location, new_token, 49); // Copy name safely
+            location[strcspn(location, "\n")] = '\0';
+
+            token = strtok(NULL, "|");
+            date = atoi(token); // Convert string to int
+
+            DataHistory new_history = {name , location , date};;
+
+            if ( !check) history= addHistory(history , new_history);
+            else history_id = addHistory(history_id , new_history);
+            }
+        if (! check) list = addListHistory(list , history);
+    }
+    printf("\n");
+}
+
+void writeHistoryData(historyManager list , int id , int phone_number , DataHistory data)
+{
+    FILE *file;
+    file = fopen("../Interface/history.txt", "a");
+    if (file == NULL)
+    {
+        perror("Error opening file");
+    }
+
+    fprintf(file, "\n\n%d|%d", id , phone_number);
+    fprintf(file, "\n%s|%s|%d" , data.name_hotel , data.location ,data.date);
+    fclose(file);
 }

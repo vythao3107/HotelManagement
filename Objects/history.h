@@ -46,11 +46,13 @@ void QuicksortByDate(ListHistory list, PDHistory first, PDHistory last);
 // Function ptototytpes for History Manager
 
 historyManager createHistoryManager();
-historyManager addListHistory(historyManager list, int id, int phone_number);
+historyManager addListHistory(historyManager list, ListHistory history );
 ListHistory searchByIDHistory(historyManager list, int id);
 void deleteByIDHistory(historyManager list, int id);
 void showHistoryManager(historyManager list);
 void freeMemoryHistory(ListHistory list) ;
 void freeMemoryHistoryManager(historyManager manager);
+void readHistoryData(historyManager historyManager );
+void writeHistoryData(historyManager list, int id, int phone_number, DataHistory data);
 
 #endif
