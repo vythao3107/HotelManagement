@@ -1,3 +1,6 @@
 10|7|hotel_1|thanhhoa|19002000
 20|17|hotel_2|bacdai|19002001
 30|27|hotel_3|quangchau|19002002
+50|10|hotel_4|Hanoi|456789
+40|80|hotel_5|Hue|654321
+30|50|hotel_6|Sapa|789123

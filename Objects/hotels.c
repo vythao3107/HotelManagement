@@ -59,6 +59,13 @@ PDHotel searchByNameHotel(ListHotel list, const char* name)
     return NULL;    // Return NULL if no hotel with the given name is found
 }
 
+void showHotel(PDHotel hotel)
+{
+    printf("\tName : [%s]\tLocation:[%s]\n" , hotel->data.name , hotel->data.location);
+    printf("\tRating :[%d]\tAvailable Room : [%d]\n" , hotel->data.rating , hotel->data.available_room);
+    printf("\t\t===[%d]===\n", hotel->data.hotline);
+}
+
 // Function to delete a hotel by name 
 void deleteByNameHotel(ListHotel list, const char* name) {
     PDHotel deleteNode = searchByNameHotel(list, name); // Search for the hotel by name
@@ -192,7 +199,6 @@ void freeMemoryHotel(ListHotel list)
 
 void readHotelData(ListHotel list )
 {
-    printf("TEST READING FILE FORM HOTEL.C \n");
     FILE *file ;
     // rating|available_room|name|location|hotline;
     file = fopen("../Interface/hotels.txt", "r");
@@ -237,8 +243,6 @@ void readHotelData(ListHotel list )
         // Create and add the new hotel
         DataHotel new_hotel = {rating, available_room, name, location, hotline};
         list = addHotel(list, new_hotel);
-        
-        //showListHotel(list);
     }
     printf("\n");
     
