@@ -1,5 +1,6 @@
 #include<stdio.h>
 #include<stdbool.h>
+#include<time.h>
 
 #include "../Objects/history.h"
 #include "../Objects/hotels.h"
@@ -12,6 +13,7 @@ bool checkAccount() ;
 int main()
 {
     printf("BEGIN PROGRAMING \n");
+    printf("Console like this\n");
 
     // Initialization 
     historyManager list_history_mananger = createHistoryManager();
@@ -23,17 +25,20 @@ int main()
     readUserData(user_manager);
     readHotelData(hotel_manager);
 
-    // showListHotel(hotel_manager);
-    // printf("\nSearching function : \n");
-    // printf("%d\n" , searchByNameHotel(hotel_manager, "hotel_3")->data.available_room);
+    // Get interface of client 
+    int system_key ;
+    printf("WELCOME TO HOMEPAGE \n");
+    printf("You are [User/Hotel Manager/Admin] = [0/1/2] : ");
+    scanf("%d",&system_key);
 
     // User Interface module 
-    int system_key = 1 ;
-
-    while (system_key == 1)
+    while (system_key == 0)
     {
         system_key = userInterface(list_history_mananger , hotel_manager , user_manager);
     }
+
+    // printf("SHOW LIST HISTORY\n");
+    // showHistoryManager(list_history_mananger);
 
     // Free memories
     freeMemoryHistoryManager(list_history_mananger);

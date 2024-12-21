@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdbool.h>
+#include <time.h>
 
 #include "../Objects/history.h"
 #include "../Objects/hotels.h"
@@ -73,6 +74,27 @@ DataUser signUpUser()
 
 }
 
+int getTime()
+{
+    time_t t;
+    struct tm *tm_info;
+    time(&t);
+    tm_info = localtime(&t);
+    return (tm_info->tm_year - 100) * 10000 + ++tm_info->tm_mon * 100 + tm_info->tm_mday;
+}
+
+void saveHistory(historyManager list, int id, DataHistory data)
+{
+    ListHistory my_history = searchByIDHistory( list , id );
+    if (my_history != NULL)
+    {
+        addHistory(my_history, data);
+        writeHistoryData(list , id , my_history->phone_number , data);
+    }else return ;
+    printf("Save your information done \n");
+
+} 
+
 int userInterface(historyManager manager, ListHotel hotels, ListUser users)
 {
     printf("WELCOME TO USERINTERFACE \n");
@@ -122,6 +144,9 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
         if ( check_book_user == 1)
         {
             printf("Welcome to %s hotel \n" , hotel->data.name);
+
+            DataHistory my_data = {hotel->data.name , hotel->data.location , getTime()};
+            saveHistory(manager , my_user.id , my_data);
         }
         free(name_hotel);
     } else return 1 ;
