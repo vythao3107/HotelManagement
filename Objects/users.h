@@ -29,5 +29,5 @@ void deleteByID(ListUser list, int id );
 void showListUser(ListUser list);
 void freeMemoryUser(ListUser list);
 void readUserData(ListUser list);
-void writeUserData(ListUser list , DataUser data);
+void writeUserData(DataUser data);
 #endif
