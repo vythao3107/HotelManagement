@@ -176,7 +176,7 @@ void readUserData(ListUser list)
     printf("\n");
 }
 
-void writeUserData(ListUser list, DataUser data)
+void writeUserData( DataUser data)
 {
     FILE *file;
     file = fopen("../Interface/users.txt", "a");
