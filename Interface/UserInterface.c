@@ -1,16 +1,89 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdbool.h>
 
 #include "../Objects/history.h"
 #include "../Objects/hotels.h"
 #include "../Objects/users.h"
+#include "UserInterface.h"
 
 void showHotel(PDHotel hotel);
+
+DataUser signInUser()
+{
+    bool check_sign_in = false ;
+    int id ;
+    char *name = (char *) malloc(50 * sizeof(char));
+    printf("Enter your id : ");
+    scanf("%d",&id);
+    printf("Enter your name : ");
+    scanf("%s", name);
+
+    FILE* file ;
+    file = fopen("users.txt", "r");
+    char line[256];
+
+    // Read the file line by line
+    while (fgets(line, sizeof(line), file) )
+    if(strlen(line) != 0){
+        int id_file ;
+        char *name_file = (char *)malloc(50 * sizeof(char));
+
+        // Tokenize the line
+        char *token;
+        token = strtok(line, "|");
+        id_file = atoi(token); // Convert string to int
+
+        token = strtok(NULL, "|");
+        strncpy(name_file, token, 49); // Copy name safely
+        name_file[49] = '\0';          // Ensure null termination
+
+        name_file[strcspn(name_file, "\n")] = '\0';         // Remove newline from name
+
+        if (id == id_file && strcmp(name, name_file) == 0)
+        {
+            printf("SIGN IN SUCCESSFULLY !\n");
+
+            DataUser my_user = {id , name_file };
+            free(name);
+            return my_user;
+        }
+        free(name_file);
+    }
+    printf("NOT FOUND !!! \n");
+    free(name);
+    fclose(file);
+    return (DataUser){-1, "..."};
+}
+
+DataUser signUpUser()
+{
+    int id ;
+    char *name = (char *) malloc(50 * sizeof(char));
+
+    printf("Enter your id :" );
+    scanf("%d",&id);
+    printf("Enter your name : ");
+    scanf("%s", name);
+    
+    DataUser my_user = {id , name};
+    writeUserData(my_user);
+    return my_user;
+
+}
 
 int userInterface(historyManager manager, ListHotel hotels, ListUser users)
 {
     printf("WELCOME TO USERINTERFACE \n");
+    
+    printf("Do you hava an account [Y/N] = [1/0]? \n");
+    DataUser my_user;
+    int check_account ;
+    scanf("%d",&check_account);
+    if (check_account == 1 ) my_user = signInUser();
+    else my_user = signUpUser();
+    if (my_user.id == -1) return 0 ;
 
     printf("Do you want to search by Hotel Location [Y/N] = [1/0]?\n");
 
@@ -51,7 +124,8 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
             printf("Welcome to %s hotel \n" , hotel->data.name);
         }
         free(name_hotel);
-        //return 1 ;
-    } else return 0 ;
-    return 1;
+    } else return 1 ;
+    return -1;
 }
+
+

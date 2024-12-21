@@ -6,7 +6,8 @@
 
 int userInterface(historyManager manager, ListHotel hotels, ListUser users);
 void showHotel(PDHotel hotel );
-
+DataUser signInUser();
+DataUser signUpUser();
 
 
 
