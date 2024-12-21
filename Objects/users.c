@@ -138,7 +138,6 @@ void freeMemoryUser(ListUser list)
 
 void readUserData(ListUser list)
 {
-    printf("TEST READING FILE FORM USERs.C \n");
     FILE *file;
     // id|name
     file = fopen("../Interface/users.txt", "r");
@@ -171,8 +170,9 @@ void readUserData(ListUser list)
         // Create and add the new user
         DataUser new_user = {id , name};
         list = addUser(list, new_user);
-        showListUser(list);
+        //showListUser(list);
     }
+    fclose(file);
     printf("\n");
 }
 
