@@ -61,9 +61,11 @@ PDHotel searchByNameHotel(ListHotel list, const char* name)
 
 void showHotel(PDHotel hotel)
 {
+    printf("=====================================================\n");
     printf("\tName : [%s]\tLocation:[%s]\n" , hotel->data.name , hotel->data.location);
     printf("\tRating :[%d]\tAvailable Room : [%d]\n" , hotel->data.rating , hotel->data.available_room);
     printf("\t\t===[%d]===\n", hotel->data.hotline);
+    printf("=====================================================\n");
 }
 
 // Function to delete a hotel by name 

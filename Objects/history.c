@@ -339,7 +339,6 @@ void freeMemoryHistoryManager(historyManager manager)
 
 void readHistoryData(historyManager list)
 {
-    printf("TEST READING FILE FORM HISTORY.C \n");
     FILE *file;
     // id|name
     file = fopen("../Interface/history.txt", "r");
@@ -362,7 +361,6 @@ void readHistoryData(historyManager list)
         char *token;
         token = strtok(line, "|");
         id = atoi(token); // Convert string to int
-        printf("Identifier : %d \n"  , id );
 
         token = strtok(NULL, "|");
         phone_number = atoi(token); // Convert string to int
