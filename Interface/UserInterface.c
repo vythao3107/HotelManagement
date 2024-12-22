@@ -99,7 +99,7 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
 {
     printf("WELCOME TO USERINTERFACE \n");
     
-    printf("Do you hava an account [Y/N] = [1/0]? \n");
+    printf("Do you have an account [Y/N] = [1/0]? \n");
     DataUser my_user;
     int check_account ;
     scanf("%d",&check_account);
@@ -134,11 +134,9 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
         }
 
         // Check whether the user wants to book or not.
-        printf("Do you prefer this hotel ? \n");
         printf("And do you book this hotel ? [Y/N] = [1/0]\n");
 
         int check_book_user ;
-        printf("Please enter your decision: ");
         scanf("%d", &check_book_user);
 
         if ( check_book_user == 1)

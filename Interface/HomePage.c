@@ -12,7 +12,7 @@ bool checkAccount() ;
 
 int main()
 {
-    printf("BEGIN PROGRAMING \n");
+    printf("BEGIN PROGRAMMING \n");
     printf("Console like this\n");
 
     // Initialization 
@@ -44,6 +44,6 @@ int main()
     freeMemoryHistoryManager(list_history_mananger);
     freeMemoryUser(user_manager);
     freeMemoryHotel(hotel_manager);
-    printf("END PROGRAMING \n");
+    printf("END PROGRAMMING \n");
 }
 
