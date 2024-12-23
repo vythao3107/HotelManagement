@@ -58,17 +58,26 @@ DataUser signInUser()
     return (DataUser){-1, "..."};
 }
 
-DataUser signUpUser()
+DataUser signUpUser( historyManager manager)
 {
-    int id ;
+    int id , phone_number ;
     char *name = (char *) malloc(50 * sizeof(char));
 
     printf("Enter your id :" );
     scanf("%d",&id);
     printf("Enter your name : ");
     scanf("%s", name);
+    printf("Enter your phone number : ");
+    scanf("%d",&phone_number);
     
     DataUser my_user = {id , name};
+
+    // Add information to history manager 
+    ListHistory list = createListHistory();
+    list->phone_number = phone_number ;
+    list->id = id ;
+    manager = addListHistory(manager , list) ;
+
     writeUserData(my_user);
     return my_user;
 
@@ -104,7 +113,7 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
     int check_account ;
     scanf("%d",&check_account);
     if (check_account == 1 ) my_user = signInUser();
-    else my_user = signUpUser();
+    else my_user = signUpUser(manager);
     if (my_user.id == -1) return 0 ;
 
     printf("Do you want to search by Hotel Location [Y/N] = [1/0]?\n");
