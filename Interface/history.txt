@@ -1,21 +1,5 @@
-101|19002005
-hotel_1|quangchau|241213
-hotel_2|quangtho|241214
+101|1900101
+hotel_2|Beijing|241228
 
-102|19002007
-hotel_3|thanhhoa|241101
-hotel_4|bacdai|241102
-
-103|19002009
-hotel_5|thanhhoa|241101
-hotel_6|bacdai|241102
-
-104|19002011
-hotel_7|thanhhoa|241101
-hotel_8|bacdai|241102
-
-101|19002005
-hotel_9|quangchau|241213
-
-101|19002005
-hotel_1|thanhhoa|241221
+101|1900101
+hotel_9|Paris|241228

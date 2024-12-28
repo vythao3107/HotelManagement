@@ -7,7 +7,7 @@
 int userInterface(historyManager manager, ListHotel hotels, ListUser users);
 void showHotel(PDHotel hotel );
 DataUser signInUser();
-DataUser signUpUser();
+DataUser signUpUser( historyManager manager);
 void saveHistory(historyManager list, int id, DataHistory data);
 
 #endif 

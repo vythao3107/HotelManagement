@@ -7,7 +7,7 @@
 
 void showTestHotels()
 {
-    printf("Test hotel library succesful ! \n");
+    printf("Test hotel library successfully ! \n");
 }
 
 ListHotel createListHotel() {
@@ -216,7 +216,7 @@ void readHotelData(ListHotel list )
     // Read the file line by line 
     while (fgets(line, sizeof(line) , file))
     {
-        int rating, available_room, hotline;
+        int rating, available_room, hotline , total_visitors;
         char *name = (char*)malloc(50 * sizeof(char));
         char *location = (char*)malloc(50 * sizeof(char));
 
@@ -242,24 +242,31 @@ void readHotelData(ListHotel list )
         name[strcspn(name, "\n")] = '\0'; // Remove newline from name
         location[strcspn(location, "\n")] = '\0'; // Remove newline from location
 
+        token = strtok(NULL, "|");
+        total_visitors = atoi(token); // Convert string to int
+
         // Create and add the new hotel
-        DataHotel new_hotel = {rating, available_room, name, location, hotline};
+        DataHotel new_hotel = {rating, available_room, name, location, hotline , total_visitors};
         list = addHotel(list, new_hotel);
     }
     printf("\n");
     
 }
 
-void writeHotelData(ListHotel list , DataHotel data)
+void writeHotelData(ListHotel list , DataHotel data , bool endline  )
 {
     FILE *file ;
-    file = fopen("../Interface/hotels.txt" ,"a");
+    if (!endline)
+    {
+        file = fopen("../Interface/hotels.txt", "w");
+    }else 
+        file = fopen("../Interface/hotels.txt" ,"a");
     if (file == NULL)
     {
         perror("Error opening file");
     }
-    
-    fprintf(file ,"%d|%d|%s|%s|%d\n" , data.rating ,data.available_room , data.name , data.location , data.hotline);
+    if ( endline )fprintf(file , "\n");
+    fprintf(file ,"%d|%d|%s|%s|%d|%d" , data.rating ,data.available_room , data.name , data.location , data.hotline , data.total_visitors);
     fclose(file);
 
 }

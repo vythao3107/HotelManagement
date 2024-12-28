@@ -8,6 +8,7 @@
 #include "../Objects/hotels.h"
 #include "../Objects/users.h"
 #include "UserInterface.h"
+#include "HotelInterface.h"
 
 void showHotel(PDHotel hotel);
 
@@ -58,17 +59,26 @@ DataUser signInUser()
     return (DataUser){-1, "..."};
 }
 
-DataUser signUpUser()
+DataUser signUpUser( historyManager manager)
 {
-    int id ;
+    int id , phone_number ;
     char *name = (char *) malloc(50 * sizeof(char));
 
     printf("Enter your id :" );
     scanf("%d",&id);
     printf("Enter your name : ");
     scanf("%s", name);
+    printf("Enter your phone number : ");
+    scanf("%d",&phone_number);
     
     DataUser my_user = {id , name};
+
+    // Add information to history manager 
+    ListHistory list = createListHistory();
+    list->phone_number = phone_number ;
+    list->id = id ;
+    manager = addListHistory(manager , list) ;
+
     writeUserData(my_user);
     return my_user;
 
@@ -99,12 +109,12 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
 {
     printf("WELCOME TO USERINTERFACE \n");
     
-    printf("Do you hava an account [Y/N] = [1/0]? \n");
+    printf("Do you have an account [Y/N] = [1/0]? \n");
     DataUser my_user;
     int check_account ;
     scanf("%d",&check_account);
     if (check_account == 1 ) my_user = signInUser();
-    else my_user = signUpUser();
+    else my_user = signUpUser(manager);
     if (my_user.id == -1) return 0 ;
 
     printf("Do you want to search by Hotel Location [Y/N] = [1/0]?\n");
@@ -125,6 +135,11 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
         PDHotel hotel = searchByNameHotel(hotels, name_hotel);
 
         printf("Show detail hotel's information :\n");
+        if ( hotel->data.available_room == 0 )
+        {
+            printf("Sorry ! The hotel is fully booked. Please try again ! \n");
+            return 1 ;
+        }
         if ( hotel != NULL ) showHotel( hotel ) ; 
         else 
         { 
@@ -134,11 +149,9 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
         }
 
         // Check whether the user wants to book or not.
-        printf("Do you prefer this hotel ? \n");
         printf("And do you book this hotel ? [Y/N] = [1/0]\n");
 
         int check_book_user ;
-        printf("Please enter your decision: ");
         scanf("%d", &check_book_user);
 
         if ( check_book_user == 1)
@@ -146,7 +159,26 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
             printf("Welcome to %s hotel \n" , hotel->data.name);
 
             DataHistory my_data = {hotel->data.name , hotel->data.location , getTime()};
-            saveHistory(manager , my_user.id , my_data);
+            
+            // Update hotel 
+            int new_rating ;
+            printf("Enter your rating in here : ");
+            scanf("%d", &new_rating);
+
+            // Calculate new rating 
+            new_rating = new_rating + hotel->data.rating * hotel->data.total_visitors ;
+            hotel->data.total_visitors += 1 ;
+            new_rating = new_rating / hotel->data.total_visitors ;
+
+            // Update value 
+            hotel->data.rating = new_rating ;
+            hotel->data.available_room -= 1;
+
+            // save file hotels.txt 
+            saveHotelInfo(hotels , hotel->data);
+
+            // save History
+            saveHistory(manager, my_user.id, my_data);
         }
         free(name_hotel);
     } else return 1 ;

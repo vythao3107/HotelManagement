@@ -125,10 +125,10 @@ void swapData(DoubleLinkedList list , PDNode a , PDNode b)
     b->data = temp  ;
 }
 
-PDNode Partition(DoubleLinkedList list , PDNode frist , PDNode last )
+PDNode Partition(DoubleLinkedList list , PDNode first , PDNode last )
 {
     printList(list);
-    if ( frist == last) return NULL;
+    if ( first == last) return NULL;
 
     bool check_smaller = false ;    // check j < i : true 
     bool check_equal  = false  ;    // check j = i true  ;
@@ -136,8 +136,8 @@ PDNode Partition(DoubleLinkedList list , PDNode frist , PDNode last )
     bool check_i = true  ;  // check over last 
     bool check_j = true  ;  // check over first 
 
-    PDNode i = frist->nextR , j = last ;
-    int pivot = frist->data.id ;
+    PDNode i = first->nextR , j = last ;
+    int pivot = first->data.id ;
 
     while ( ! check_smaller  )
     {
@@ -153,7 +153,7 @@ PDNode Partition(DoubleLinkedList list , PDNode frist , PDNode last )
         {
             if ( i == j ) check_smaller = true ;
             if ( i != j && check_equal ) check_smaller = true ;
-            if ( j == frist ) check_j = false ; else j = j->nextL ;
+            if ( j == first ) check_j = false ; else j = j->nextL ;
         }
 
         if( !check_smaller )
@@ -188,29 +188,3 @@ void Quicksort( DoubleLinkedList list , PDNode first , PDNode last )
     }else return ;
 }
 
-/********************************************/
-int main() {
-    DoubleLinkedList myList = createList(); // Create a new list
-
-    // Add some nodes to the list
-    myList = addNode(myList, (Data){30 , "anh"});
-    myList = addNode(myList, (Data){10 , "nguyen"});
-    myList = addNode(myList, (Data){60 , "oke "});
-    myList = addNode(myList, (Data){20 , "tuanh"});
-    myList = addNode(myList, (Data){40 , "very"});
-    myList = addNode(myList, (Data){50 , "handsome"});
-
-
-    // Print the list
-    printf("The contents of the list are: ");
-    printList(myList);
-
-    Quicksort(myList , myList->H , myList->T) ;
-      
-    printf("after quicksort function run part 1  :\n");
-    printList(myList);
-
-    printf("END CODE! \n");
-
-    return 0;
-}

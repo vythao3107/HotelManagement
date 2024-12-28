@@ -7,13 +7,15 @@
 #include "../Objects/users.h"
 
 #include "UserInterface.h"
+#include "HotelInterface.h"
 
 bool checkAccount() ;
 
 int main()
 {
-    printf("BEGIN PROGRAMING \n");
+    printf("BEGIN PROGRAMMING \n");
     printf("Console like this\n");
+    
 
     // Initialization 
     historyManager list_history_mananger = createHistoryManager();
@@ -36,14 +38,16 @@ int main()
     {
         system_key = userInterface(list_history_mananger , hotel_manager , user_manager);
     }
-
-    // printf("SHOW LIST HISTORY\n");
-    // showHistoryManager(list_history_mananger);
+    // Hotel Interface module 
+    while (system_key == 1)
+    {
+        system_key = hotelInterface(list_history_mananger, hotel_manager, user_manager);
+    }
 
     // Free memories
     freeMemoryHistoryManager(list_history_mananger);
     freeMemoryUser(user_manager);
     freeMemoryHotel(hotel_manager);
-    printf("END PROGRAMING \n");
+    printf("END PROGRAMMING \n");
 }
 
