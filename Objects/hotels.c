@@ -1,8 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<string.h>
-#include<stdbool.h>
-
 #include"hotels.h"
 
 void showTestHotels()
@@ -116,6 +111,20 @@ void showListHotel(ListHotel list) {
         current = current->nextR;
     }
     printf("\t =============== \t");
+}
+
+int getNumberHotels(ListHotel hotels)
+{
+    int count = 0;
+
+    PDHotel current = hotels->H; // Start from the head
+
+    while (current != NULL)
+    {
+        current = current->nextR;
+        count ++;
+    }
+    return count ;
 }
 
 // Function to swap data between two hotels

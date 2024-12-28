@@ -1,8 +1,3 @@
-#include<stdio.h>
-#include<stdlib.h>
-#include<stdbool.h>
-#include<string.h>
-
 #include"users.h"
 
 void showTestUser()
@@ -109,14 +104,26 @@ void deleteByID(ListUser list, int id)
 
 void showListUser(ListUser list)
 {
+    printf("\nList All Users : \n");
     PDUser current = list->H; // Start from the head
-
     while (current != NULL)
     {
         printf("Name : [%s] \t Identifier: [%d] \n", current->data.name, current->data.id);
         current = current->nextR;
     }
-    printf("\t =============== \t");
+    printf("\t =============== \t\n");
+}
+
+int getNumberUsers(ListUser list)
+{
+    int count = 0;
+    PDUser current = list->H; // Start from the head
+    while (current != NULL)
+    {
+        count ++ ;
+        current = current->nextR;
+    }
+    return count ;
 }
 
 void freeMemoryUser(ListUser list)
