@@ -1,6 +1,4 @@
 #include<stdio.h>
-#include<stdbool.h>
-#include<time.h>
 
 #include "../Objects/history.h"
 #include "../Objects/hotels.h"
@@ -8,14 +6,13 @@
 
 #include "UserInterface.h"
 #include "HotelInterface.h"
-
-bool checkAccount() ;
+#include "AdminInterface.h"
 
 int main()
 {
     printf("BEGIN PROGRAMMING \n");
     printf("Console like this\n");
-    
+
 
     // Initialization 
     historyManager list_history_mananger = createHistoryManager();
@@ -42,6 +39,11 @@ int main()
     while (system_key == 1)
     {
         system_key = hotelInterface(list_history_mananger, hotel_manager, user_manager);
+    }
+    // Admin Interface module 
+    while (system_key == 2)
+    {
+        system_key = adminInterface(list_history_mananger, hotel_manager, user_manager);
     }
 
     // Free memories
