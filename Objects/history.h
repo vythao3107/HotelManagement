@@ -1,6 +1,11 @@
 #ifndef HISTORY_H
 #define HISTORY_H
 
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
+#include <string.h>
+
 typedef struct DataHistory
 {
     char *name_hotel;
@@ -43,7 +48,7 @@ void swapDataHistory(ListHistory list, PDHistory a, PDHistory b);
 PDHistory PartitionDate(ListHistory list, PDHistory first, PDHistory last);
 void QuicksortByDate(ListHistory list, PDHistory first, PDHistory last);
 
-// Function ptototytpes for History Manager
+// Function propotypes for History Manager
 
 historyManager createHistoryManager();
 historyManager addListHistory(historyManager list, ListHistory history );
