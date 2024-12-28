@@ -7,4 +7,5 @@
 int adminInterface(historyManager manager, ListHotel hotels, ListUser users);
 
 
+
 #endif 
