@@ -1,9 +1,10 @@
 10|7|hotel_1|Berlin|19002000|1
 0|0|hotel_2|Beijing|19002001|0
-30|27|hotel_3|Guangzhou|19002002|1
-50|10|hotel_4|Hanoi|19002003|1
+0|10|hotel_3|Guangzhou|19002002|0
+50|20|hotel_4|Hanoi|19002003|0
 40|80|hotel_5|Hue|19002004|1
 30|50|hotel_6|Wuhan|19002005|1
 50|11|hotel_7|Tokyo|19002007|1
 50|11|hotel_8|NewYorkCity|19002008|1
 0|25|hotel_9|Paris|19002009|0
+0|10|hotel_10|HoChiMinhCity|1900110|0
