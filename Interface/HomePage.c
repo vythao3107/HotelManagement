@@ -27,7 +27,9 @@ int main()
     // Get interface of client 
     int system_key ;
     printf("WELCOME TO HOMEPAGE \n");
-    printf("You are [User/Hotel Manager/Admin] = [0/1/2] : ");
+    printf("0. User \n");
+    printf("1. Hotel \n");
+    printf("2. Admin \n");
     scanf("%d",&system_key);
 
     // User Interface module 
