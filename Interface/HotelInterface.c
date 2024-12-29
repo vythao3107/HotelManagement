@@ -71,7 +71,9 @@ void updateHotelData(ListHotel hotels , DataHotel hotel)
 {
     // update in doubly linked list 
     PDHotel new_data = searchByNameHotel(hotels , hotel.name);
-    new_data->data = hotel ;
+    int rating = new_data->data.rating ;
+    new_data->data = hotel;
+    new_data->data.rating = rating  ;
 
     PDHotel current = hotels->H; // Start from the head
     // empty file txt 

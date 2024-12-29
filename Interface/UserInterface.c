@@ -181,7 +181,7 @@ int userInterface(historyManager manager, ListHotel hotels, ListUser users)
             saveHistory(manager, my_user.id, my_data);
         }
         free(name_hotel);
-    } else return 1 ;
+    }
     return -1;
 }
 
